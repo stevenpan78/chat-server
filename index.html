@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat app</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box;}
+      body { font: 13px Helvetica, Arial; }
+      form { background: #0088ff; padding: 3px; bottom: 0px; width: 200%; height: 100px;margin-left: -6px;border-radius: 5px;}
+      form input { border: 0; padding-top: 22px; width: 100%; margin-right: 1%;line-height: 20px;text-align: center;}
+      form button { width: 100%; background: rgb(130, 124, 275); border: none; padding: 10px;}
+      #main {float: right;margin-right: 250px;margin-top: 20px;}
+      #messages2 { list-style-type: none; margin: 0; padding: 0;}
+      #messages2 li { padding: 5px 10px; background: #EF7196;}
+      #messages2 li:nth-child(odd) { background: #0D8580;}
+    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div id="main">
+      <form action="">
+        <input id="m" autocomplete="off" placeholder="Type your text here" /><button class="alert alert-info"><strong>Send</strong></button>
+      </form>
+    </div>
+
+    <ul id="messages2"></ul>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      var socket = io();
+      $('form').submit(function(){
+        socket.emit('chat message', $('#m').val());
+        $('#m').val('');
+        return false;
+      });
+      socket.on('chat message', function(msg){
+        $('#messages2').append($('<li>').text(msg));
+      });
+    </script>
+  </body>
+</html>
